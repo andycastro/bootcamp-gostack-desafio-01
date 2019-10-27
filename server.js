@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const requireDir = require('require-dir');
 
 const app = express();
+app.use(express.json());
 
 mongoose.connect('mongodb://localhost:27017/challengeapi', {
   useNewUrlParser: true,
@@ -10,16 +11,7 @@ mongoose.connect('mongodb://localhost:27017/challengeapi', {
 });
 requireDir('./src/models');
 
-const Project = mongoose.model('Project')
-
-app.get('/', (req, res) => {
-  Project.create({ 
-    id: '1',
-    title: 'Project I',
-    tasks: 'Primeira Task'
-   }); 
-  
-  return res.send('Running...');
-});
+//rotas
+app.use('/api', require('./src/routes'));
 
 app.listen(3001);
